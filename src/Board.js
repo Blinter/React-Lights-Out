@@ -40,13 +40,13 @@ function Board({ nrows, ncols, targetMoves }) {
     const tempGrid = Array.from({ length: sizeY }, () =>
       Array.from({ length: sizeX }, () => false));
     const numMoves = targetMoves === -1 ?
-      Math.floor(Math.random() * (nrows * ncols)) + 1 :
+      Math.floor(Math.random() * (sizeX * sizeY)) + 1 :
       targetMoves;
     for (let i = 0; i < numMoves; i++)
       flipCellsGenerate(
         tempGrid,
-        Math.floor(Math.random() * nrows),
-        Math.floor(Math.random() * ncols));
+        Math.floor(Math.random() * sizeX),
+        Math.floor(Math.random() * sizeY));
     return tempGrid;
   }
 
