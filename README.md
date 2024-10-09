@@ -62,6 +62,10 @@ Figure out how to do this.
 
 ## TODO
 
+### Migrate to Vite
+
+Latest dependencies
+
 ### **Default Properties**
 
 Add default properties for the board sizes and how likely it is the a light on the initial board is turned on or off.
