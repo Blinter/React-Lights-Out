@@ -2,8 +2,12 @@ import React from "react";
 import Board from "./Board";
 import "./App.css";
 
-/** Simple app that just shows the LightsOut game. */
-
+/**
+ * The App component serves as the main entry point for rendering the application.
+ *
+ * @returns {JSX.Element} A JSX element representing the application structure,
+ * containing a `div` element with a `Board` component rendered inside it.
+ */
 function App() {
   return (
       <div className="App">

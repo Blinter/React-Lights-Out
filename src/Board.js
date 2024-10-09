@@ -4,31 +4,18 @@ import Cell from "./Cell";
 import "./Board.css";
 import { v4 as uuidv4 } from 'uuid';
 
-/** Game board of Lights out.
+/**
+ * Represents the game board.
  *
- * Properties:
+ * @component
  *
- * - nrows: number of rows of board
- * - ncols: number of cols of board
- * - chanceLightStartsOn: float, chance any cell is lit at start of game
+ * @param {Object} props - The component props.
+ * @param {number} props.nrows - Number of rows in the board.
+ * @param {number} props.ncols - Number of columns in the board.
+ * @param {number} props.targetMoves - Target moves for the board generation.
  *
- * State:
- *
- * - board: array-of-arrays of true/false
- *
- *    For this board:
- *       .  .  .
- *       O  O  .     (where . is off, and O is on)
- *       .  .  .
- *
- *    This would be: [[f, f, f], [t, t, f], [f, f, f]]
- *
- *  This should render an HTML table of individual <Cell /> components.
- *
- *  This doesn't handle any clicks --- clicks are on individual cells
- *
- **/
-
+ * @returns {JSX.Element} The rendered board component.
+ */
 function Board({ nrows, ncols, targetMoves }) {
   const [board, setBoard] = useState(
     createBoard(
@@ -40,6 +27,15 @@ function Board({ nrows, ncols, targetMoves }) {
 
   const [gameWon, setGameWon] = useState(false);
 
+  /**
+   * Creates a game board with specified dimensions and populates it with target moves.
+   *
+   * @param {number} [sizeX=5] - Number of columns.
+   * @param {number} [sizeY=5] - Number of rows.
+   * @param {number} [targetMoves=15] - Number of moves to generate.
+   *
+   * @returns {boolean[][]} The initialized board.
+   */
   function createBoard(sizeX = 5, sizeY = 5, targetMoves = 15) {
     const tempGrid = Array.from({ length: sizeY }, () =>
       Array.from({ length: sizeX }, () => false));
@@ -48,12 +44,19 @@ function Board({ nrows, ncols, targetMoves }) {
       targetMoves;
     for (let i = 0; i < numMoves; i++)
       flipCellsGenerate(
-        tempGrid, 
-        Math.floor(Math.random() * nrows), 
+        tempGrid,
+        Math.floor(Math.random() * nrows),
         Math.floor(Math.random() * ncols));
     return tempGrid;
   }
 
+  /**
+   * Flips cells around a given cell in the board.
+   *
+   * @param {boolean[][]} board - The board with cells.
+   * @param {number} row - The row index of the cell.
+   * @param {number} col - The column index of the cell.
+   */
   function flipCellsGenerate(board, row, col) {
     [[-1, 0], [1, 0], [0, -1], [0, 1], [0, 0]].forEach(([x, y]) => {
       const newRow = row + x;
@@ -67,19 +70,20 @@ function Board({ nrows, ncols, targetMoves }) {
     });
   }
 
-  // Random grid
-  // chanceLightStartsOn = 0.5 input paramater (Default)
-  // const tempGrid = [];
-  // for (let i = 0; i < sizeX; i++) {
-  //   tempGrid[i] = [];
-  //   for (let j = 0; j < sizeY; j++)
-  //     tempGrid[i][j] = Math.random() < chanceLightStartsOn;
-  // }
-  // return tempGrid;
-
+  /**
+   * Checks if the board has been completely solved (all cells are true).
+   *
+   * @param {boolean[][]} boardCopy - The board to check.
+   * @returns {boolean} True if all cells are true, otherwise false.
+   */
   const hasWon = boardCopy =>
     boardCopy.every(row => row.every(cell => cell));
 
+  /**
+   * Toggles cells around a given coordinate on the board.
+   *
+   * @param {string} coord - The cell coordinate in "x-y" format.
+   */
   function flipCellsAround(coord) {
     setBoard(oldBoard => {
       const [x, y] = coord.split("-").map(Number);
@@ -116,14 +120,12 @@ function Board({ nrows, ncols, targetMoves }) {
     });
   }
 
-  // if the game is won, just show a winning msg & render nothing else
   useEffect(() => {
     if (gameWon) {
       alert("You won!");
     }
   }, [gameWon]);
 
-  // make table board
   return (
     <table className="Board">
       <tbody>
