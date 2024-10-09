@@ -62,9 +62,9 @@ function Board({ nrows, ncols, targetMoves }) {
       const newRow = row + x;
       const newCol = col + y;
       if (newRow >= 0 &&
-        newRow < nrows &&
+        newRow < board.length &&
         newCol >= 0 &&
-        newCol < ncols) {
+        newCol < board[0].length) {
         board[newRow][newCol] = !board[newRow][newCol];
       }
     });
